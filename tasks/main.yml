@@ -9,7 +9,7 @@
     name: vscode
     types: [deb]
     uris: "http://packages.microsoft.com/repos/code"
-    architectures: [amd64,arm64,armhf]
+    architectures: [amd64, arm64, armhf]
     components: [main]
     suites: [stable]
     signed_by: https://packages.microsoft.com/keys/microsoft.asc
