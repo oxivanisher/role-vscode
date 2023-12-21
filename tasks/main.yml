@@ -1,15 +1,20 @@
 ---
+- name: Remove legacy apt file
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/vscode.list
+    state: absent
 
-- name: Add the Microsoft Packages APT key
-  ansible.builtin.apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
+- name: Add VSCode repo using key from URL
+  ansible.builtin.deb822_repository:
+    name: vscode
+    types: [deb]
+    uris: "http://packages.microsoft.com/repos/code"
+    architectures: [amd64,arm64,armhf]
+    components: [main]
+    suites: [stable]
+    signed_by: https://packages.microsoft.com/keys/microsoft.asc
     state: present
-
-- name: Add VSCode Repository
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64,arm64,armhf] http://packages.microsoft.com/repos/code stable main"
-    state: present
-    filename: vscode
+    enabled: true
 
 - name: Install VSCode
   ansible.builtin.apt:
