@@ -18,6 +18,8 @@
   ansible.builtin.file:
     path: /etc/apt/sources.list.d/vscode.sources
     state: absent
+  become: true
+  become_user: root
 
 - name: Check for vscode.list file
   ansible.builtin.stat:
@@ -32,9 +34,13 @@
     group: root
     mode: "0644"
   when: not vscode_list_file.stat.exists
+  become: true
+  become_user: root
 
 - name: Install VSCode
   ansible.builtin.apt:
     name: code
     update_cache: true
     state: present
+  become: true
+  become_user: root
