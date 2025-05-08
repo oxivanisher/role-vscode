@@ -2,7 +2,7 @@ vscode
 =======
 [![Ansible Lint](https://github.com/oxivanisher/role-vscode/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/oxivanisher/role-vscode/actions/workflows/ansible-lint.yml)
 
-This role installs vscode.
+This role installs vscode. It is now creating a deb822 file (again), since the `.deb` installer is checking for this and handling this correctly. This was discovered by unpacking the `.deb` and checking the `DEBIAN/postinst` script.
 
 Example Playbook
 ----------------

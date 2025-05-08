@@ -1,47 +1,20 @@
 ---
 
-# Why are you manipulating your own source files, vscode? Annoying!
-# I keep this here, maybe sometime in the future we get control back
-# - name: Add VSCode repo using key from URL
-#   ansible.builtin.deb822_repository:
-#     name: vscode
-#     types: [deb]
-#     uris: "http://packages.microsoft.com/repos/code"
-#     architectures: [amd64, arm64, armhf]
-#     components: [main]
-#     suites: [stable]
-#     signed_by: https://packages.microsoft.com/keys/microsoft.asc
-#     state: present
-#     enabled: true
-
-- name: Remove old but correct vscode.sources file
-  ansible.builtin.file:
-    path: /etc/apt/sources.list.d/vscode.sources
-    state: absent
-  become: true
-  become_user: root
-
-- name: Check for vscode.list file
-  ansible.builtin.stat:
-    path: /etc/apt/sources.list.d/vscode.list
-  register: vscode_list_file
-
-- name: Ensure some sources file exists for VSCode
-  ansible.builtin.copy:
-    dest: /etc/apt/sources.list.d/vscode.list
-    content: "deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/repos/code stable main"
-    owner: root
-    group: root
-    mode: "0644"
-  when: not vscode_list_file.stat.exists
-  become: true
-  become_user: root
-
-- name: Install VSCode
-  ansible.builtin.apt:
-    name: code
-    update_cache: true
+- name: Add VSCode repo using key from URL
+  ansible.builtin.deb822_repository:
+    name: vscode
+    types: [deb]
+    uris: "https://packages.microsoft.com/repos/code"
+    architectures: [amd64, arm64, armhf]
+    components: [main]
+    suites: [stable]
+    signed_by: https://packages.microsoft.com/keys/microsoft.asc
     state: present
-  ignore_errors: "{{ ansible_check_mode }}"
+    enabled: true
+
+- name: Remove old vscode.list file
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/vscode.list
+    state: absent
   become: true
   become_user: root
