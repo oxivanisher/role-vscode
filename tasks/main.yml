@@ -11,6 +11,8 @@
     signed_by: https://packages.microsoft.com/keys/microsoft.asc
     state: present
     enabled: true
+  become: true
+  become_user: root
 
 - name: Remove old vscode.list file
   ansible.builtin.file:
