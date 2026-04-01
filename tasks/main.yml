@@ -4,7 +4,6 @@
     name: python3-debian
     state: present
   become: true
-  become_user: root
 
 - name: Add VSCode repo using key from URL
   ansible.builtin.deb822_repository:
@@ -18,14 +17,12 @@
     state: present
     enabled: true
   become: true
-  become_user: root
 
 - name: Remove old vscode.list file
   ansible.builtin.file:
     path: /etc/apt/sources.list.d/vscode.list
     state: absent
   become: true
-  become_user: root
 
 - name: Install VScode
   ansible.builtin.apt:
@@ -34,4 +31,3 @@
     state: present
   ignore_errors: "{{ ansible_check_mode }}"
   become: true
-  become_user: root
