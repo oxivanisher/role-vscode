@@ -5,7 +5,14 @@
     state: present
   become: true
 
-- name: Add VSCode repo using key from URL
+- name: Download VSCode GPG key
+  ansible.builtin.get_url:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    dest: /etc/apt/keyrings/vscode.asc
+    mode: '0644'
+  become: true
+
+- name: Add VSCode apt repository
   ansible.builtin.deb822_repository:
     name: vscode
     types: [deb]
@@ -13,7 +20,7 @@
     architectures: [amd64, arm64, armhf]
     components: [main]
     suites: [stable]
-    signed_by: https://packages.microsoft.com/keys/microsoft.asc
+    signed_by: /etc/apt/keyrings/vscode.asc
     state: present
     enabled: true
   become: true
